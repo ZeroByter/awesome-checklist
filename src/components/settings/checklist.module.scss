@@ -1,0 +1,23 @@
+.container {
+  padding: 6px;
+  border: 1px solid white;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .header {
+    display: flex;
+    gap: 6px;
+
+    input {
+      flex: 1;
+    }
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}

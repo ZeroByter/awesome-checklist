@@ -33,7 +33,7 @@ const Checklist: FC<Props> = ({ checklistTemplate }) => {
               ...loopChecklistTemplate.items,
               {
                 id: randomId(),
-                text: `New item-${randomId(3)}`,
+                text: `New task`,
               },
             ],
           };
@@ -81,7 +81,7 @@ const Checklist: FC<Props> = ({ checklistTemplate }) => {
           value={checklistTemplate.title}
           onChange={handleTitleChange}
         />
-        <button onClick={handleNewItem}>New Item</button>
+        <button onClick={handleNewItem}>New Task</button>
         <button onClick={handleDeleteChecklistTemplate}>X</button>
       </div>
       <div className={css.items}>{renderItems}</div>

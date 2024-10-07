@@ -1,0 +1,19 @@
+.container {
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 3px;
+
+  &[data-complete="true"] {
+    color: greenyellow;
+    border-color: greenyellow;
+    // background: greenyellow;
+    // color: #1c1c24;
+  }
+
+  &[data-active="true"] {
+    color: orange;
+    border-color: orange;
+    // background: orange;
+    // color: #1c1c24;
+  }
+}

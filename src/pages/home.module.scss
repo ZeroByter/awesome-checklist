@@ -14,16 +14,9 @@
   .tasks {
     flex: 1;
     overflow-y: auto;
-
-    .task {
-      &[data-complete="true"] {
-        color: greenyellow;
-      }
-
-      &[data-active="true"] {
-        color: orange;
-      }
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .buttons {

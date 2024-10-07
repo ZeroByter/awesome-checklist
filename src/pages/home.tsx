@@ -5,6 +5,7 @@ import css from "./home.module.scss";
 import ChecklistInstanceChooser from "../components/home/checklistInstanceChooser";
 import { useAppState } from "../components/contexts/appState";
 import { useHomePageState } from "../components/contexts/homePage";
+import ChecklistTask from "../components/home/task";
 
 const HomePage: FC = () => {
   const { checklistsTemplates, setChecklistsTemplates } = useAppState();
@@ -15,17 +16,42 @@ const HomePage: FC = () => {
   } = useHomePageState();
 
   useEffect(() => {
-    if (
-      activeChecklistTemplateId === undefined &&
-      checklistsTemplates.length > 0
-    ) {
+    if (!activeChecklistTemplateId && checklistsTemplates.length > 0) {
       setActiveChecklistTemplateId(checklistsTemplates[0].id);
     }
-  }, []);
+  }, [
+    activeChecklistTemplateId,
+    checklistsTemplates,
+    setActiveChecklistTemplateId,
+  ]);
 
   const activeChecklistInstance = activeChecklistTemplate?.instances.find(
     (instance) => instance.id === activeChecklistTemplate.activeInstanceId
   );
+
+  useEffect(() => {
+    if (
+      activeChecklistTemplate &&
+      activeChecklistTemplate.instances.length > 0 &&
+      activeChecklistInstance == null
+    ) {
+      setChecklistsTemplates(
+        checklistsTemplates.map((template) =>
+          template.id === activeChecklistTemplate?.id
+            ? {
+                ...template,
+                activeInstanceId: activeChecklistTemplate.instances[0].id,
+              }
+            : template
+        )
+      );
+    }
+  }, [
+    activeChecklistInstance,
+    activeChecklistTemplate,
+    checklistsTemplates,
+    setChecklistsTemplates,
+  ]);
 
   const handleBackTask = () => {
     setChecklistsTemplates(
@@ -61,16 +87,18 @@ const HomePage: FC = () => {
           `Checklist done! Delete '${activeChecklistInstance.title}'?`
         )
       ) {
-        checklistsTemplates.map((template) =>
-          template.id === activeChecklistTemplateId
-            ? {
-                ...template,
-                instances: template.instances.filter(
-                  (instance) => instance.id !== template.activeInstanceId
-                ),
-                activeInstanceId: undefined,
-              }
-            : template
+        setChecklistsTemplates(
+          checklistsTemplates.map((template) =>
+            template.id === activeChecklistTemplateId
+              ? {
+                  ...template,
+                  instances: template.instances.filter(
+                    (instance) => instance.id !== template.activeInstanceId
+                  ),
+                  activeInstanceId: "",
+                }
+              : template
+          )
         );
       }
 
@@ -100,16 +128,14 @@ const HomePage: FC = () => {
 
   const activeTaskIndex = activeChecklistInstance?.currentStepIndex ?? -1;
 
-  const renderTasks = activeChecklistTemplate?.items.map((item, index) => {
+  const renderTasks = activeChecklistTemplate?.items.map((task, index) => {
     return (
-      <div
-        key={item.id}
-        className={css.task}
-        data-complete={index < activeTaskIndex}
-        data-active={index === activeTaskIndex}
-      >
-        {item.text}
-      </div>
+      <ChecklistTask
+        key={task.id}
+        task={task}
+        index={index}
+        activeTaskIndex={activeTaskIndex}
+      />
     );
   });
 

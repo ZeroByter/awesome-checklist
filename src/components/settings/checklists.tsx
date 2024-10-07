@@ -14,6 +14,8 @@ const Checklists: FC = () => {
         id: randomId(),
         title: "New checklist",
         items: [],
+        activeInstanceId: "",
+        instances: [],
       },
     ]);
   };

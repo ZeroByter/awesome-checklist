@@ -4,18 +4,27 @@ import { useHomePageState } from "../../contexts/homePage";
 import css from "./style.module.scss";
 
 const ChecklistInstancesDropdown: FC = () => {
-  const { checklistsInstances } = useAppState();
-  const { activeChecklistInstanceId, setActiveChecklistInstanceId } =
-    useHomePageState();
+  const { checklistsTemplates, setChecklistsTemplates } = useAppState();
+  const { activeChecklistTemplate } = useHomePageState();
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setActiveChecklistInstanceId(e.target.value);
+    setChecklistsTemplates(
+      checklistsTemplates.map((template) =>
+        template.id === activeChecklistTemplate?.id
+          ? {
+              ...template,
+              activeInstanceId: e.target.value,
+            }
+          : template
+      )
+    );
   };
 
-  const renderOptions = checklistsInstances.map((option) => {
+  const renderOptions = activeChecklistTemplate?.instances.map((instance) => {
     return (
-      <option key={option.id} value={option.id}>
-        {option.title}
+      <option key={instance.id} value={instance.id}>
+        {instance.title} -{" "}
+        {activeChecklistTemplate.items[instance?.currentStepIndex].text}
       </option>
     );
   });
@@ -24,8 +33,11 @@ const ChecklistInstancesDropdown: FC = () => {
     <div className={css.container}>
       Instance:
       <select
-        disabled={checklistsInstances.length === 0}
-        value={activeChecklistInstanceId}
+        disabled={
+          !activeChecklistTemplate ||
+          activeChecklistTemplate?.instances.length === 0
+        }
+        value={activeChecklistTemplate?.activeInstanceId}
         onChange={handleSelectChange}
       >
         {renderOptions}

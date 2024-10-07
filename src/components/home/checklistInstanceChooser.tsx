@@ -3,13 +3,45 @@ import css from "./checklistInstanceChooser.module.scss";
 import { useAppState } from "../contexts/appState";
 import { randomId } from "../../utils";
 import { useHomePageState } from "../contexts/homePage";
+import ChecklistType from "../../types/checklist";
 
 const ChecklistInstanceChooser: FC = () => {
   const { checklistsTemplates, setChecklistsTemplates } = useAppState();
-  const { activeChecklistTemplateId } = useHomePageState();
+  const { activeChecklistTemplateId, activeChecklistTemplate } =
+    useHomePageState();
+
+  const deleteActiveInstance = () => {
+    const activeInstance = activeChecklistTemplate?.instances.find(
+      (instance) => instance.id === activeChecklistTemplate.activeInstanceId
+    );
+
+    setChecklistsTemplates(
+      checklistsTemplates.map((template: ChecklistType) =>
+        template.id === activeChecklistTemplateId
+          ? {
+              ...template,
+              instances: template.instances.filter(
+                (instance) => instance.id !== activeInstance?.id
+              ),
+              activeInstanceId: "",
+            }
+          : template
+      )
+    );
+  };
 
   const handleDeleteInstance = () => {
-    // TODO: delete actively selected instance - show instance name in confirm
+    const activeInstance = activeChecklistTemplate?.instances.find(
+      (instance) => instance.id === activeChecklistTemplate.activeInstanceId
+    );
+
+    if (
+      window.confirm(
+        `Are you sure you want to delete '${activeInstance?.title}'?`
+      )
+    ) {
+      deleteActiveInstance();
+    }
   };
 
   const handleNewInstance = () => {
@@ -24,32 +56,43 @@ const ChecklistInstanceChooser: FC = () => {
 
     const newId = randomId();
 
-    const editedTemplates = structuredClone(checklistsTemplates);
-
-    editedTemplates.map((template) =>
-      template.id === activeChecklistTemplateId
-        ? {
-            ...template,
-            instances: [
-              ...template.instances,
-              {
-                id: newId,
-                title: newInstanceName,
-                currentStepIndex: 0,
-              },
-            ],
-            activeInstanceId: newId,
-          }
-        : template
+    setChecklistsTemplates(
+      checklistsTemplates.map((template: ChecklistType) =>
+        template.id === activeChecklistTemplateId
+          ? {
+              ...template,
+              instances: [
+                ...template.instances,
+                {
+                  id: newId,
+                  title: newInstanceName,
+                  currentStepIndex: 0,
+                },
+              ],
+              activeInstanceId: newId,
+            }
+          : template
+      )
     );
-
-    setChecklistsTemplates(editedTemplates);
   };
 
   return (
     <div className={css.container}>
-      <button onClick={handleNewInstance}>New instance</button>
-      <button onClick={handleDeleteInstance}>X</button>
+      <button
+        disabled={activeChecklistTemplate == null}
+        onClick={handleNewInstance}
+      >
+        New instance
+      </button>
+      <button
+        disabled={
+          activeChecklistTemplate == null ||
+          activeChecklistTemplate.instances.length === 0
+        }
+        onClick={handleDeleteInstance}
+      >
+        X
+      </button>
     </div>
   );
 };

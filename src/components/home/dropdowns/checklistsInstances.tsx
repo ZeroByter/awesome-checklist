@@ -5,11 +5,11 @@ import css from "./style.module.scss";
 
 const ChecklistInstancesDropdown: FC = () => {
   const { checklistsInstances } = useAppState();
-  const { activeChecklistInstance, setActiveChecklistInstance } =
+  const { activeChecklistInstanceId, setActiveChecklistInstanceId } =
     useHomePageState();
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setActiveChecklistInstance(e.target.value);
+    setActiveChecklistInstanceId(e.target.value);
   };
 
   const renderOptions = checklistsInstances.map((option) => {
@@ -22,9 +22,10 @@ const ChecklistInstancesDropdown: FC = () => {
 
   return (
     <div className={css.container}>
+      Instance:
       <select
         disabled={checklistsInstances.length === 0}
-        value={activeChecklistInstance}
+        value={activeChecklistInstanceId}
         onChange={handleSelectChange}
       >
         {renderOptions}

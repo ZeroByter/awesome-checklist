@@ -14,14 +14,24 @@
   .tasks {
     flex: 1;
     overflow-y: auto;
+
+    .task {
+      &[data-complete="true"] {
+        color: greenyellow;
+      }
+
+      &[data-active="true"] {
+        color: orange;
+      }
+    }
   }
 
   .buttons {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 
     .next {
+      flex: 1;
       font-size: 30px;
       padding: 6px;
     }

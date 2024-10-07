@@ -1,5 +1,6 @@
 import { createContext, useContext, FC, ReactNode, useState } from "react";
-import Checklist from "../../types/checklist";
+import ChecklistType from "../../types/checklist";
+import ChecklistInstanceType from "../../types/checklistInstance";
 
 export enum AvailablePages {
   HomePage,
@@ -10,11 +11,8 @@ type ContextType = {
   currentPage: AvailablePages;
   setCurrentPage: (newCurrentPage: AvailablePages) => void;
 
-  checklistsTemplates: Checklist[];
-  setChecklistsTemplates: (newChecklistsTemplates: Checklist[]) => void;
-
-  checklistsInstances: Checklist[];
-  setChecklistsInstances: (newChecklistsInstances: Checklist[]) => void;
+  checklistsTemplates: ChecklistType[];
+  setChecklistsTemplates: (newChecklistsTemplates: ChecklistType[]) => void;
 };
 
 export const AppStateContext = createContext<ContextType>({} as ContextType);
@@ -28,13 +26,9 @@ const AppStateContextProvider: FC<Props> = ({ children }) => {
     AvailablePages.HomePage
   );
 
-  const [checklistsTemplates, setChecklistsTemplates] = useState<Checklist[]>(
-    []
-  );
-
-  const [checklistsInstances, setChecklistsInstances] = useState<Checklist[]>(
-    []
-  );
+  const [checklistsTemplates, setChecklistsTemplates] = useState<
+    ChecklistType[]
+  >([]);
 
   return (
     <AppStateContext.Provider
@@ -43,8 +37,6 @@ const AppStateContextProvider: FC<Props> = ({ children }) => {
         setCurrentPage,
         checklistsTemplates,
         setChecklistsTemplates,
-        checklistsInstances,
-        setChecklistsInstances,
       }}
     >
       {children}

@@ -30,12 +30,18 @@ const ChecklistTask: FC<Props> = ({ task, index, activeTaskIndex }) => {
     >
       <div>{index + 1}. </div>
       {activeTaskIndex !== index || (
-        <div className={classNames(css.fingerEmoji, css.firstFingerEmoji)}>
-          👉
+        <div className={css.emojiContainer}>
+          <div className={classNames(css.fingerEmoji, css.firstFingerEmoji)}>
+            👉
+          </div>
         </div>
       )}
       <div className={css.text}>{task.text}</div>
-      {activeTaskIndex !== index || <div className={css.fingerEmoji}>👈</div>}
+      {activeTaskIndex !== index || (
+        <div className={css.emojiContainer}>
+          <div className={css.fingerEmoji}>👈</div>
+        </div>
+      )}
       <div className={css.spacer}></div>
       <div className={css.timeCompleted}>
         {timeCompletedTask

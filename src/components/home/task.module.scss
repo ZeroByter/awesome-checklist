@@ -14,17 +14,15 @@
     border-color: orange;
   }
 
-  .emojiContainer {
-    height: 18px;
-    display: flex;
-    align-items: center;
+  .firstFingerEmoji {
+    padding-inline-start: 3px;
+  }
 
-    .firstFingerEmoji {
-      padding-inline-start: 3px;
-    }
-
-    .fingerEmoji {
-      height: 28px;
+  .fingerEmoji {
+    @media screen and (min-width: 1200px) {
+      height: 0px;
+      position: relative;
+      bottom: 6px;
     }
   }
 

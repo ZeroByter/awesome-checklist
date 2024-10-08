@@ -67,6 +67,7 @@ const ChecklistInstanceChooser: FC = () => {
                   id: newId,
                   title: newInstanceName,
                   currentStepIndex: 0,
+                  timesCompletedSteps: {},
                 },
               ],
               activeInstanceId: newId,

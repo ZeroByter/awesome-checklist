@@ -54,6 +54,10 @@ const HomePage: FC = () => {
   ]);
 
   const handleBackTask = () => {
+    if (activeChecklistInstance!.currentStepIndex === 0) {
+      return;
+    }
+
     setChecklistsTemplates(
       checklistsTemplates.map((template) =>
         template.id === activeChecklistTemplateId
@@ -68,6 +72,10 @@ const HomePage: FC = () => {
                         (instance.currentStepIndex - 1) %
                           activeChecklistTemplate!.items.length
                       ),
+                      timesCompletedSteps: {
+                        ...instance.timesCompletedSteps,
+                        [template.items[instance.currentStepIndex - 1].id]: 0,
+                      },
                     }
                   : instance
               ),
@@ -117,6 +125,11 @@ const HomePage: FC = () => {
                       currentStepIndex:
                         (instance.currentStepIndex + 1) %
                         activeChecklistTemplate!.items.length,
+                      timesCompletedSteps: {
+                        ...instance.timesCompletedSteps,
+                        [template.items[instance.currentStepIndex].id]:
+                          Date.now(),
+                      },
                     }
                   : instance
               ),

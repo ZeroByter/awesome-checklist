@@ -2,18 +2,39 @@
   border: 1px solid white;
   border-radius: 4px;
   padding: 3px;
+  display: flex;
 
   &[data-complete="true"] {
     color: greenyellow;
     border-color: greenyellow;
-    // background: greenyellow;
-    // color: #1c1c24;
   }
 
   &[data-active="true"] {
     color: orange;
     border-color: orange;
-    // background: orange;
-    // color: #1c1c24;
+  }
+
+  .firstFingerEmoji {
+    padding-inline-start: 3px;
+  }
+
+  .fingerEmoji {
+    height: 0px;
+    position: relative;
+    bottom: 6px;
+  }
+
+  .text {
+    padding: 0px 3px;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .timeCompleted {
+    color: white;
+    opacity: 0.5;
+    font-size: 12px;
   }
 }

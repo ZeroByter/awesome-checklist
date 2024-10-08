@@ -1,6 +1,8 @@
 import { FC } from "react";
 import ChecklistItemType from "../../types/checklistItem";
 import css from "./task.module.scss";
+import { useHomePageState } from "../contexts/homePage";
+import classNames from "classnames";
 
 type Props = {
   task: ChecklistItemType;
@@ -9,10 +11,15 @@ type Props = {
 };
 
 const ChecklistTask: FC<Props> = ({ task, index, activeTaskIndex }) => {
-  const renderText =
-    index === activeTaskIndex
-      ? `${index + 1}. 👉 ${task.text} 👈`
-      : `${index + 1}. ${task.text}`;
+  const { activeChecklistTemplate } = useHomePageState();
+
+  const activeChecklistInstance = activeChecklistTemplate?.instances.find(
+    (instance) => instance.id === activeChecklistTemplate.activeInstanceId
+  );
+
+  const timeCompletedTask = activeChecklistInstance?.timesCompletedSteps
+    ? activeChecklistInstance?.timesCompletedSteps[task.id]
+    : undefined;
 
   return (
     <div
@@ -21,7 +28,20 @@ const ChecklistTask: FC<Props> = ({ task, index, activeTaskIndex }) => {
       data-complete={index < activeTaskIndex}
       data-active={index === activeTaskIndex}
     >
-      {renderText}
+      <div>{index + 1}. </div>
+      {activeTaskIndex !== index || (
+        <div className={classNames(css.fingerEmoji, css.firstFingerEmoji)}>
+          👉
+        </div>
+      )}
+      <div className={css.text}>{task.text}</div>
+      {activeTaskIndex !== index || <div className={css.fingerEmoji}>👈</div>}
+      <div className={css.spacer}></div>
+      <div className={css.timeCompleted}>
+        {timeCompletedTask
+          ? new Date(timeCompletedTask).toLocaleTimeString()
+          : undefined}
+      </div>
     </div>
   );
 };

@@ -34,7 +34,7 @@ const Checklists: FC = () => {
   return (
     <div className={css.container}>
       <div>
-        <button onClick={createNewChecklistTemplate}>add</button>
+        <button onClick={createNewChecklistTemplate}>New checklist</button>
       </div>
       <div className={css.checklistsTemplates}>{renderChecklistsTemplates}</div>
     </div>

@@ -166,14 +166,14 @@ const HomePage: FC = () => {
           className={css.back}
           onClick={handleBackTask}
         >
-          back
+          Back
         </button>
         <button
           disabled={activeChecklistInstance == null}
           className={css.next}
           onClick={handleNextTask}
         >
-          next
+          Next
         </button>
       </div>
     </div>

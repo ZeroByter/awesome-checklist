@@ -81,7 +81,7 @@ const Checklist: FC<Props> = ({ checklistTemplate }) => {
           value={checklistTemplate.title}
           onChange={handleTitleChange}
         />
-        <button onClick={handleNewItem}>New Task</button>
+        <button onClick={handleNewItem}>New task</button>
         <button onClick={handleDeleteChecklistTemplate}>X</button>
       </div>
       <div className={css.items}>{renderItems}</div>

@@ -3,6 +3,8 @@ import ChecklistItemType from "../../types/checklistItem";
 import css from "./task.module.scss";
 import { useHomePageState } from "../contexts/homePage";
 import classNames from "classnames";
+import pointLeft from "../../imgs/emojis/point_left.webp";
+import pointRight from "../../imgs/emojis/point_right.webp";
 
 type Props = {
   task: ChecklistItemType;
@@ -30,12 +32,16 @@ const ChecklistTask: FC<Props> = ({ task, index, activeTaskIndex }) => {
     >
       <div>{index + 1}. </div>
       {activeTaskIndex !== index || (
-        <div className={classNames(css.fingerEmoji, css.firstFingerEmoji)}>
-          👉
-        </div>
+        <img
+          src={pointRight}
+          alt="Point right"
+          className={classNames(css.fingerEmoji, css.firstFingerEmoji)}
+        />
       )}
       <div className={css.text}>{task.text}</div>
-      {activeTaskIndex !== index || <div className={css.fingerEmoji}>👈</div>}
+      {activeTaskIndex !== index || (
+        <img src={pointLeft} alt="Point left" className={css.fingerEmoji} />
+      )}
       <div className={css.spacer}></div>
       <div className={css.timeCompleted}>
         {timeCompletedTask
